@@ -4,4 +4,7 @@
     <string name="score_0">Score: 0</string>
     <string name="exit">Exit</string>
     <string name="play_again">Play Again!</string>
+    <string name="outOfTimeText">Sorry Time Is Up!</string>
+    <string name="incorrectAnswerText">Incorrect!</string>
+    <string name="correctAnswerText">Correct!</string>
 </resources>

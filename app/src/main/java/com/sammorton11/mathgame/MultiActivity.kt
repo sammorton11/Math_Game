@@ -1,15 +1,14 @@
 package com.sammorton11.mathgame
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import java.util.*
-
+import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 
 
@@ -34,14 +33,15 @@ class MultiActivity : AppCompatActivity() {
     var timeLeftInMillis : Long = startTimerInMilliseconds
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_game)
 
         //changes title bar name
-        supportActionBar!!.title = "Addition"
+        supportActionBar!!.title = "Multiplication"
 
-        textScore = findViewById(R.id.textViewScore)
+        textScore = findViewById(R.id.textViewScoreNumber)
         textLife = findViewById(R.id.textViewLife)
         textTime = findViewById(R.id.textViewTime)
 
@@ -55,7 +55,7 @@ class MultiActivity : AppCompatActivity() {
 
         buttonOk.setOnClickListener {
 
-            var input = editTextAnswer.text.toString()
+            val input = editTextAnswer.text.toString()
 
             if (input == "")
             {
@@ -80,6 +80,11 @@ class MultiActivity : AppCompatActivity() {
                     textQuestion.text = "Incorrect!"
                     Toast.makeText(applicationContext, "Try Again!", Toast.LENGTH_LONG).show()
                     textLife.text = userLife.toString()
+
+                    if (userLife <= 0)
+                    {
+                        results()
+                    }
                 }
             }
         }
@@ -90,13 +95,9 @@ class MultiActivity : AppCompatActivity() {
             gameContinue()
             editTextAnswer.setText("")
 
-            if (userLife == 0)
+            if (userLife <= 0)
             {
-                Toast.makeText(applicationContext, "Game Over!", Toast.LENGTH_LONG).show()
-                val intent = Intent(this@MultiActivity, ResultActivity::class.java)
-                intent.putExtra("Score:", userScore)
-                startActivity(intent)
-                finish()
+                results()
             }
             else
             {
@@ -107,12 +108,27 @@ class MultiActivity : AppCompatActivity() {
 
     }
 
+    private fun results(){
+        Toast.makeText(applicationContext, "Game Over!", Toast.LENGTH_LONG).show()
+        val intent = Intent(this@MultiActivity, ResultActivity::class.java)
+        intent.putExtra("Score:", userScore)
+        startActivity(intent)
+        finish()
+    }
 
+    //removed random numbers for testing purposes
     private fun gameContinue()
     {
-        val number1 = Random.nextInt(0,10)
-        val number2 = Random.nextInt(0,10)
-        textQuestion.text = "$number1 * $number2"
+        //val number1 = Random.nextInt(0,100)
+        //val number2 = Random.nextInt(0,100)
+        val number1 = 5
+        val number2 = 1
+        val question = buildString {
+            append(number1)
+            append(" * ")
+            append(number2)
+        }
+        textQuestion.text = question
         correctAnswer = number1 * number2
 
         startTimer()
@@ -131,6 +147,7 @@ class MultiActivity : AppCompatActivity() {
                 updateText()
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onFinish()
             {
                 pauseTimer()
@@ -139,6 +156,7 @@ class MultiActivity : AppCompatActivity() {
                 userLife--
                 textLife.text = userLife.toString()
                 textQuestion.text = "Sorry Time Is Up!"
+                results()
             }
 
         }.start()

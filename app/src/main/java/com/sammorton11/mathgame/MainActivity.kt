@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
-class MainActivity : AppCompatActivity() {
+ open class MainActivity : AppCompatActivity() {
 
     private lateinit var addition : Button
     private lateinit var subtraction : Button

@@ -38,9 +38,9 @@ class SubGameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_game)
 
-        supportActionBar!!.title = "Addition"
+        supportActionBar!!.title = "Subtraction"
 
-        textScore = findViewById(R.id.textViewScore)
+        textScore = findViewById(R.id.textViewScoreNumber)
         textLife = findViewById(R.id.textViewLife)
         textTime = findViewById(R.id.textViewTime)
 
@@ -54,7 +54,7 @@ class SubGameActivity : AppCompatActivity() {
 
         buttonOk.setOnClickListener {
 
-            var input = editTextAnswer.text.toString()
+            val input = editTextAnswer.text.toString()
 
             if (input == "")
             {
@@ -79,6 +79,10 @@ class SubGameActivity : AppCompatActivity() {
                     textQuestion.text = "Incorrect!"
                     Toast.makeText(applicationContext, "Try Again!", Toast.LENGTH_LONG).show()
                     textLife.text = userLife.toString()
+
+                    if(userLife <= 0){
+                        results()
+                    }
                 }
             }
         }
@@ -89,13 +93,9 @@ class SubGameActivity : AppCompatActivity() {
             gameContinue()
             editTextAnswer.setText("")
 
-            if (userLife == 0)
+            if (userLife <= 0)
             {
-                Toast.makeText(applicationContext, "Game Over!", Toast.LENGTH_LONG).show()
-                val intent = Intent(this@SubGameActivity, ResultActivity::class.java)
-                intent.putExtra("Score:", userScore)
-                startActivity(intent)
-                finish()
+                results()
             }
             else
             {
@@ -106,11 +106,27 @@ class SubGameActivity : AppCompatActivity() {
 
     }
 
+    private fun results(){
+        Toast.makeText(applicationContext, "Game Over!", Toast.LENGTH_LONG).show()
+        val intent = Intent(this@SubGameActivity, ResultActivity::class.java)
+        intent.putExtra("Score:", userScore)
+        startActivity(intent)
+        finish()
+    }
+
+    //removed random numbers for testing purposes
     private fun gameContinue()
     {
-        val number1 = Random.nextInt(25,100)
-        val number2 = Random.nextInt(0,25)
-        textQuestion.text = "$number1 - $number2"
+        //val number1 = Random.nextInt(0,100)
+        //val number2 = Random.nextInt(0,100)
+        val number1 = 5
+        val number2 = 0
+        val question = buildString {
+            append(number1)
+            append(" - ")
+            append(number2)
+        }
+        textQuestion.text = question
         correctAnswer = number1 - number2
         startTimer()
     }
@@ -134,6 +150,7 @@ class SubGameActivity : AppCompatActivity() {
                 userLife--
                 textLife.text = userLife.toString()
                 textQuestion.text = "Sorry Time Is Up!"
+                results()
             }
 
         }.start()

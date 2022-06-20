@@ -9,21 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MathGame">
+
         <activity
             android:name=".ResultActivity"
             android:exported="false"
-            android:theme="@style/Theme.ResultGamePage"/>
+            android:theme="@style/Theme.Game"/>
         <activity
             android:name=".MultiActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Game"/>
         <activity
             android:name=".SubGameActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Game"/>
         <activity
             android:name=".AddGameActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.GamePage" />
+            android:theme="@style/Theme.Game"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
